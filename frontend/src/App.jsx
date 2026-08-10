@@ -8,6 +8,17 @@ import PlayerJoin from './pages/PlayerJoin'
 import PlayerLobby from './pages/PlayerLobby'
 import PlayerGame from './pages/PlayerGame'
 import WheelPage from './pages/WheelPage'
+import {useGameStore} from './store/gameStore'
+
+function RequirePlayer({ children }) {
+  const { nickname } = useGameStore(s=>s.nickname)
+  return nickname ? children : <Navigate to="/join" replace />
+} 
+
+function RequireHost({ children }) {
+  const { role } = useGameStore(s=>s.role)
+  return role === 'host' ? children : <Navigate to="/" replace />
+}
 
 export default function App() {
   return (
@@ -17,10 +28,10 @@ export default function App() {
         <Route path="/host-dashboard" element={<HostDashboard />} />
         <Route path="/host" element={<HostQuizBuilder />} />
         <Route path="/join" element={<PlayerJoin />} />
-        <Route path="/room/:code/host-lobby" element={<HostLobby />} />
-        <Route path="/room/:code/host-game" element={<HostGame />} />
-        <Route path="/room/:code/player-lobby" element={<PlayerLobby />} />
-        <Route path="/room/:code/player-game" element={<PlayerGame />} />
+        <Route path="/room/:code/host-lobby" element={<RequireHost><HostLobby /></RequireHost>} />
+        <Route path="/room/:code/host-game" element={<RequireHost><HostGame /></RequireHost>} />
+        <Route path="/room/:code/player-lobby" element={<RequirePlayer><PlayerLobby /></RequirePlayer>} />
+        <Route path="/room/:code/player-game" element={<RequirePlayer><PlayerGame /></RequirePlayer>} />
         <Route path="/room/:code/wheel" element={<WheelPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
