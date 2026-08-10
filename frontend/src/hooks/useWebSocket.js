@@ -59,6 +59,11 @@ export function useWebSocket(roomCode, handlers) {
           handlersRef.current?.onFinalResults?.(data)
         })
 
+        client.subscribe(`/topic/room/${roomCode}/wheel-result`, (msg) => {
+          const data = JSON.parse(msg.body)
+          handlersRef.current?.onWheelResult?.(data)
+        })
+
         handlersRef.current?.onConnect?.()
       },
       onDisconnect: () => handlersRef.current?.onDisconnect?.(),

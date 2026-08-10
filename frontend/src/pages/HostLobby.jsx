@@ -166,10 +166,18 @@ export default function HostLobby() {
 
         {error && <p style={{ color: 'var(--danger)', marginBottom: 12 }}>{error}</p>}
 
-        <button className="btn btn-primary btn-lg" style={{ width: '100%' }}
-                onClick={startGame} disabled={starting || players.length === 0}>
-          {starting ? 'Starting…' : `🚀 Start Game (${players.length} player${players.length !== 1 ? 's' : ''})`}
-        </button>
+        <div style={{ display: 'flex', gap: 12 }}>
+          <button className="btn btn-primary btn-lg" style={{ flex: 1 }}
+                  onClick={startGame} disabled={starting || players.length === 0}>
+            {starting ? 'Starting…' : `🚀 Start Game (${players.length} player${players.length !== 1 ? 's' : ''})`}
+          </button>
+          <button className="btn btn-secondary btn-lg"
+                  onClick={() => navigate(`/room/${code}/wheel`)}
+                  disabled={players.length === 0}
+                  title="Spin the Wheel of Names">
+            🎡 Wheel
+          </button>
+        </div>
       </div>
     </div>
   )

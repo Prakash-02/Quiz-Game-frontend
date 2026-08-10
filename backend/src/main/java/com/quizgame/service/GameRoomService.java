@@ -196,6 +196,11 @@ public class GameRoomService {
         return buildLeaderboard(room);
     }
 
+    public void broadcastWheelResult(String roomCode, String winner) {
+        messagingTemplate.convertAndSend("/topic/room/" + roomCode + "/wheel-result",
+                Map.of("winner", winner));
+    }
+
     private void broadcastLeaderboard(String roomCode, GameRoom room, boolean isFinal) {
         List<LeaderboardEntry> entries = buildLeaderboard(room);
         String topic = isFinal ? "/topic/room/" + roomCode + "/final-results"

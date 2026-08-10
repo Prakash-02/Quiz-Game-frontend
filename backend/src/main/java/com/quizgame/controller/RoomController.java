@@ -82,6 +82,14 @@ public class RoomController {
         return ResponseEntity.ok(roomService.getFinalResults(code.toUpperCase()));
     }
 
+    @PostMapping("/{code}/wheel-spin")
+    public ResponseEntity<Void> wheelSpin(
+            @PathVariable String code,
+            @RequestBody Map<String, String> body) {
+        roomService.broadcastWheelResult(code.toUpperCase(), body.get("winner"));
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/{code}/answer")
     public ResponseEntity<Map<String, Object>> submitAnswer(
             @PathVariable String code,

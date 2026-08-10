@@ -18,6 +18,7 @@ export default function PlayerLobby() {
       }
     },
     onQuestion: () => navigate(`/room/${code}/player-game`),
+    onWheelResult: () => navigate(`/room/${code}/wheel`),
   })
 
   const myInfo = lobbyState?.players?.find(p => p.nickname === nickname)
