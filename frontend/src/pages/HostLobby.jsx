@@ -10,12 +10,16 @@ const COLORS = { TEAM: '#7c3aed', INDIVIDUAL: '#22c55e' }
 export default function HostLobby() {
   const { code } = useParams()
   const navigate = useNavigate()
-  const { lobbyState, setLobbyState, setPhase } = useGameStore()
+  const { role, lobbyState, setLobbyState, setPhase } = useGameStore()
   const [mode, setMode] = useState('INDIVIDUAL')
   const [teamCount, setTeamCount] = useState(2)
   const [starting, setStarting] = useState(false)
   const [shuffling, setShuffling] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (!role) navigate('/', { replace: true })
+  }, [role])
 
   useWebSocket(code, {
     onLobby: (data) => {

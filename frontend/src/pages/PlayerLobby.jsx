@@ -9,6 +9,10 @@ export default function PlayerLobby() {
   const navigate = useNavigate()
   const { nickname, playerId, lobbyState, setLobbyState } = useGameStore()
 
+  useEffect(() => {
+    if (!nickname ) navigate('/join',{replace:true})
+    },[nickname])
+
   useWebSocket(code, {
     onLobby: (data) => {
       if (data.event === 'GAME_STARTING') {
